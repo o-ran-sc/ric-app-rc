@@ -1,0 +1,62 @@
+---
+project: 'ric-app-rc'
+project_creation_date: '2021-11-24'
+project_category: ''
+lifecycle_state: 'Incubation'
+project_lead:
+    name: 'Nitin Kumar Gupta'
+    email: 'nitin.gupta@mavenir.com'
+    id: 'nitinkg76'
+    company: 'Mavenir'
+    timezone: 'Asia/Kolkata'
+primary_contact:
+    name: 'Nitin Kumar Gupta'
+    email: 'nitin.gupta@mavenir.com'
+    id: 'nitinkg76'
+    company: 'Mavenir'
+    timezone: 'Asia/Kolkata'
+issue_tracking:
+    type: 'jira'
+    url: 'https://jira.o-ran-sc.org/'
+    key: ''
+mailing_list:
+    type: 'groups.io'
+    url: 'https://lists.o-ran-sc.org/g/main'
+    tag: '<[main]>'
+realtime_discussion:
+    type: 'irc'
+    server: 'freenode.net'
+    channel: '#o-ran-sc'
+meetings:
+    - type: 'zoom'
+      agenda: ''
+      url: ''
+      server: 'n/a'
+      channel: 'n/a'
+      repeats: 'weekly'
+      time: ''
+repositories:
+    - 'ric-app/rc'
+committers:
+    - name: 'Rajalakshmi S'
+      email: 'rajalakshmi.s@mavenir.com'
+      id: 'rajalakshmisv'
+      company: 'Mavenir'
+      timezone: 'Asia/Kolkata'
+    - name: 'Praneeth Vakrani'
+      email: 'praneeth.vakrani@mavenir.com'
+      id: 'praneeth2021'
+      company: 'Mavenir'
+      timezone: 'Asia/Kolkata'
+    - name: 'Nitin Kumar Gupta'
+      email: 'nitin.gupta@mavenir.com'
+      id: 'nitinkg76'
+      company: 'Mavenir'
+      timezone: 'Asia/Kolkata'
+tsc:
+    # yamllint disable rule:line-length
+    approval: 'https://wiki.o-ran-sc.org/display/TOC#ORANSCTechnicalOversightCommittee(TOC)-20210922'
+    #  changes:
+    #    - type: ''
+    #      name: ''
+    #      link: ''

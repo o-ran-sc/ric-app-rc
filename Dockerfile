@@ -23,7 +23,7 @@ RUN cd xapp-frame && \
     cp -r vendor/* /go/src/ && \
     rm -rf vendor
 
-WORKDIR /go/src/gerrit.o-ran-sc.org/r/ric-app
+WORKDIR /go/src/gerrit.o-ran-sc.org/r/ric-app/rc
 COPY go.mod .
 COPY go.sum .
 COPY cmd cmd
@@ -62,6 +62,6 @@ FROM ubuntu:18.04
 ENV CFG_FILE /opt/ric/config/config-file.json
 COPY --from=rcbuild /usr/local/lib /usr/local/lib
 RUN ldconfig
-WORKDIR /go/src/gerrit.o-ran-sc.org/r/ric-app
-COPY --from=rcbuild /go/src/gerrit.o-ran-sc.org/r/ric-app/rc .
+WORKDIR /go/src/gerrit.o-ran-sc.org/r/ric-app/rc
+COPY --from=rcbuild /go/src/gerrit.o-ran-sc.org/r/ric-app/rc/rc .
 CMD ./rc

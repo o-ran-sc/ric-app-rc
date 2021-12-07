@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"gerrit.o-ran-sc.org/r/ric-plt/xapp-frame/pkg/xapp"
-	"gerrit.o-ran-sc.org/r/scp/ric-app/protocol/grpc/ricmsgcommrpc/rc"
+	"gerrit.o-ran-sc.org/r/ric-app/rc/protocol/grpc/ricmsgcommrpc/rc"
 	"log"
 	"os"
 	"strconv"

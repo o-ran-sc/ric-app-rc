@@ -7,7 +7,7 @@
       "name": "rc",
       "image": {
         "registry": "nexus3.o-ran-sc.org:10002",
-        "name": "o-ran-sc/scp-ric-app-rc",
+        "name": "o-ran-sc/ric-app-rc",
         "tag": "1.0.0"
       }
     }

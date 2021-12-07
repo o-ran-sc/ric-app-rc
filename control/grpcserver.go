@@ -6,6 +6,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
+	"google.golang.org/grpc/reflection"
 	"net"
 )
 
@@ -39,6 +40,7 @@ func StartgRPCRCControlCommServerRoutine() error {
 
 	// attach the Ping service to the server
 	rc.RegisterMsgCommServer(lgRPCServer, &lRCControlSrv)
+	reflection.Register(lgRPCServer)
 
 	//Register to health service
 	grpc_health_v1.RegisterHealthServer(lgRPCServer, health.NewServer())

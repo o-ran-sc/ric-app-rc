@@ -23,6 +23,12 @@ This repository contains the source for sending RIC control Msg to RAN/E2 Node  
 This xApp can be onboarded through the xApp Onboarder.  The xapp descriptor 
 is under the xapp-descriptor/ directory.
 
-Then the xapp can be deployed through the App Manager.
+Then the xapp can be deployed through the App Manager. 
+Procedure to Onboard the xapp is given in installation guide, in docs folder
 
 GRPC communication can be tested using the grpccurl command
+
+
+In the current implementation, timer is started after initiating Control Request to E2Node. So timer expiry errors will be seen in logs w.r.t. Control Resp.
+As control ACK is not handled this error can be ignored
+

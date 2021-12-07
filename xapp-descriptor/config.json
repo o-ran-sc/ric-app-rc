@@ -1,0 +1,46 @@
+{
+  "xapp_name": "rc",
+  "version": "1.0.0",
+  "configPath": "/opt/ric/config/",
+  "containers": [
+    {
+      "name": "rc",
+      "image": {
+        "registry": "nexus3.o-ran-sc.org:10002",
+        "name": "o-ran-sc/scp-ric-app-rc",
+        "tag": "1.0.0"
+      }
+    }
+  ],
+  "messaging": {
+    "ports": [
+      {
+        "name": "rmr-data",
+        "container": "rc",
+        "port": 4560,
+        "rxMessages": ["RIC_CONTROL_RESP"],
+        "txMessages": ["RIC_CONTROL_REQ"],
+        "policies": [],
+        "description": "rmr receive data port for rc"
+      },
+      {
+        "name": "rmr-route",
+        "container": "rc",
+        "port": 4561,
+        "description": "rmr route port for rc"
+      }
+    ]
+  },
+  "rmr": {
+    "protPort": "tcp:4560",
+    "maxSize": 2072,
+    "numWorkers": 1,
+    "rxMessages": ["RIC_CONTROL_RESP"],
+    "txMessages": ["RIC_CONTROL_REQ"],
+    "policies": []
+  },
+  "controls": {
+    "ricHOControlgRpcServerPort" : "7777"
+}
+
+}

@@ -35,11 +35,4 @@ Steps to onboard the xapp
          after this step the xapp should be in running state
          ricxapp       ricxapp-rc-5ccdcc9f6f-ktq7w                                  1/1     Running     0          88m
         
- 5) Edit the xapp svc file to configure the grpcserver port        
-        kubectl edit svc -n ricxapp service-ricxapp-rc-rmr
-        Add the port info:
-        - name: grpc-server
-          port: 7777
-          protocol: TCP
-          targetPort: 7777
- 
+ 5) restart rtMgr so rmr is ready 

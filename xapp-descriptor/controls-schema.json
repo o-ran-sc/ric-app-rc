@@ -1,0 +1,29 @@
+{
+"controls-schema.json": {
+        "$schema": "http://json-schema.org/draft-07/schema#", "$id": "#/controls",
+        "type": "object",
+        "title": "Controls Section Schema",
+        "required": [
+                "ricHOControlgRpcServerPort",
+                "logLevel"
+        ],
+        "properties": {
+           "ricHOControlgRpcServerPort": {
+           "$id": "#/properties/ricHOControlgRpcServerPort",
+           "type": "string",
+           "title": "GRPC Port",
+           "default": "7777",
+           "examples": [
+           "7777"
+      ],
+      "logLevel" : {
+      "$id": "#/properties/logLevel",
+      "type": "int",
+      "title": "log level",
+      "default":3,
+       "examples": [3]
+      }
+    }
+    }
+  }
+}

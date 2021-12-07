@@ -1,7 +1,34 @@
 {
+  "controls-schema.json": {
+	"$schema": "http://json-schema.org/draft-07/schema#", "$id": "#/controls",
+	"type": "object",
+	"title": "Controls Section Schema",
+       	"required": [
+		"ricHOControlgRpcServerPort",
+		"logLevel"
+	],
+	"properties": {
+           "ricHOControlgRpcServerPort": {
+           "$id": "#/properties/ricHOControlgRpcServerPort",
+           "type": "string",
+           "title": "GRPC Port",
+           "default": "7777",
+           "examples": [
+           "7777" 
+      ],
+      "logLevel" : {
+      "$id": "#/properties/logLevel",
+      "type": "int",
+      "title": "log level",
+      "default":3,
+       "examples": [3]
+      }
+    }
+    }
+  },
+  "config-file.json":{
   "xapp_name": "rc",
   "version": "1.0.0",
-  "configPath": "/opt/ric/config/",
   "containers": [
     {
       "name": "rc",
@@ -14,11 +41,11 @@
   ],
   "messaging": {
     "ports": [
-      {
+     {
         "name": "rmr-data",
         "container": "rc",
         "port": 4560,
-        "rxMessages": ["RIC_CONTROL_RESP"],
+        "rxMessages": ["RIC_CONTROL_ACK, RIC_CONTROL_FAILURE, RIC_ERROR_INDICATION"],
         "txMessages": ["RIC_CONTROL_REQ"],
         "policies": [],
         "description": "rmr receive data port for rc"
@@ -35,12 +62,13 @@
     "protPort": "tcp:4560",
     "maxSize": 2072,
     "numWorkers": 1,
-    "rxMessages": ["RIC_CONTROL_RESP"],
+    "rxMessages": ["RIC_CONTROL_ACK, RIC_CONTROL_FAILURE, RIC_ERROR_INDICATION"],
     "txMessages": ["RIC_CONTROL_REQ"],
     "policies": []
   },
-  "controls": {
-    "ricHOControlgRpcServerPort" : "7777"
+   "controls": {
+	   "ricHOControlgRpcServerPort" : "7777",
+	   "logLevel": 4
+   }
 }
-
 }

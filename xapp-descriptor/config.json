@@ -1,5 +1,4 @@
 {
-  "config-file.json":{
   "xapp_name": "rc",
   "version": "1.0.0",
   "containers": [
@@ -43,5 +42,4 @@
 	   "ricHOControlgRpcServerPort" : "7777",
 	   "logLevel": 4
    }
-}
 }

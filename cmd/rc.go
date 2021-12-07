@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gerrit.o-ran-sc.org/r/scp/ric-app/control"
+	"gerrit.o-ran-sc.org/r/ric-app/rc/control"
 )
 
 func main() {

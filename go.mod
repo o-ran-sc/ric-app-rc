@@ -1,4 +1,3 @@
-//module gerrit.o-ran-sc.org/r/scp/ric-app
 module nrtric 
 
 go 1.14
@@ -25,6 +24,6 @@ replace gerrit.o-ran-sc.org/r/ric-plt/nodeb-rnib.git/reader => gerrit.o-ran-sc.o
 
 replace gerrit.o-ran-sc.org/r/ric-plt/alarm-go.git/alarm => gerrit.o-ran-sc.org/r/ric-plt/alarm-go.git/alarm v0.5.0
 
-replace gerrit.o-ran-sc.org/r/scp/ric-app/control => /go/src/gerrit.o-ran-sc.org/r/scp/ric-app/control
+replace gerrit.o-ran-sc.org/r/ric-app/rc/control => /go/src/gerrit.o-ran-sc.org/r/ric-app/rc/control
 
-replace gerrit.o-ran-sc.org/r/scp/ric-app/protocol/grpc/ricmsgcommrpc/rc => /go/src/gerrit.o-ran-sc.org/r/scp/ric-app/protocol/grpc/ricmsgcommrpc/rc
+replace gerrit.o-ran-sc.org/r/ric-app/rc/protocol/grpc/ricmsgcommrpc/rc => /go/src/gerrit.o-ran-sc.org/r/ric-app/rc/protocol/grpc/ricmsgcommrpc/rc

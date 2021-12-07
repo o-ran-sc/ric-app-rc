@@ -2,7 +2,7 @@ package control
 
 import (
 	"gerrit.o-ran-sc.org/r/ric-plt/xapp-frame/pkg/xapp"
-	rc "gerrit.o-ran-sc.org/r/scp/ric-app/protocol/grpc/ricmsgcommrpc/rc"
+	rc "gerrit.o-ran-sc.org/r/ric-app/rc/protocol/grpc/ricmsgcommrpc/rc"
 	"sync"
 )
 

@@ -3,7 +3,7 @@
 .. Copyright (C) 2020 AT&T Intellectual Property
 
 rc Control Overview
-==================
+====================
 
 rc is an Xapp used to send RIC control message to E2 / Ran Node based on the GRPC control request received.
 rc Xapp  acts as a GRPC server.It receives and processes the GRPC control request to construct the RIC Control message.

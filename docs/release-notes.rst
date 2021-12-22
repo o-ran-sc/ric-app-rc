@@ -10,3 +10,8 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`__
 and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 
+[1.0.0] - 12/22/2021
+--------------------
+
+* Initial creation of RC xapp.
+* Initial image creation 1.0.0

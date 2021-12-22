@@ -17,3 +17,4 @@ and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 * Initial image creation 1.0.0
 
 * Channel issue fixed
+* commit id added   

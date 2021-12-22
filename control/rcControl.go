@@ -1,4 +1,4 @@
-package control
+pnackage control
 
 import (
 	"errors"
@@ -106,11 +106,6 @@ func StartHandleControlReqRoutine() {
 	log.Printf("Starting Go Routine for Handling GRPC RIC Control msg ")
 	xapp.Logger.Info("Starting Go Routine for Handling GRPC RIC Control msg ")
 	for {
-		_, ok := <-gChan_RicControlReq_handle
-		if ok == false {
-			xapp.Logger.Error("Invalid grpc request received, dont process further")
-			break
-		}
 		HandlegRPCRICControlMsgReq(<-gChan_RicControlReq_handle)
 	}
 	xapp.Logger.Debug("StartHandleControlReqRoutine Done")

@@ -18,3 +18,5 @@ and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 
 * Channel issue fixed
 * commit id added   
+
+*container.tag.yaml file updated

@@ -1,2 +1,0 @@
-release-notes.rst:10: [redirected permanently] http://semver.org/ to https://semver.org/
-release-notes.rst:10: [redirected permanently] http://keepachangelog.com/ to https://keepachangelog.com/

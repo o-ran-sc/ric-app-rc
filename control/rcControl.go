@@ -1,4 +1,4 @@
-pnackage control
+package control
 
 import (
 	"errors"

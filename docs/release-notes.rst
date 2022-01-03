@@ -21,3 +21,5 @@ and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 
 * container.tag.yaml file updated
 * commit Id updated
+
+* corrected package name

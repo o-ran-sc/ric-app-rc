@@ -31,7 +31,7 @@
     "ports": [
      {
        "name": "http",
-       "container": "rchandler",
+       "container": "rc",
        "port": 8080,
        "description": "http service"
      },

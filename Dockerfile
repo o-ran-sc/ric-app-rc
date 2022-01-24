@@ -8,14 +8,14 @@ ENV GOPATH /go
 ENV GOBIN /go/bin
 ENV CFG_FILE /opt/ric/config/config-file.json
 
-ARG RMRVERSION=4.0.2
+ARG RMRVERSION=4.7.4
 ARG RMRLIBURL=https://packagecloud.io/o-ran-sc/release/packages/debian/stretch/rmr_${RMRVERSION}_amd64.deb/download.deb
 ARG RMRDEVURL=https://packagecloud.io/o-ran-sc/release/packages/debian/stretch/rmr-dev_${RMRVERSION}_amd64.deb/download.deb
 RUN wget --content-disposition ${RMRLIBURL} && dpkg -i rmr_${RMRVERSION}_amd64.deb
 RUN wget --content-disposition ${RMRDEVURL} && dpkg -i rmr-dev_${RMRVERSION}_amd64.deb
 RUN rm -f rmr_${RMRVERSION}_amd64.deb rmr-dev_${RMRVERSION}_amd64.deb
 
-ARG XAPPFRAMEVERSION=v0.4.11
+ARG XAPPFRAMEVERSION=v0.8.3
 WORKDIR /go/src/gerrit.o-ran-sc.org/r/ric-plt
 RUN git clone -b ${XAPPFRAMEVERSION} "https://gerrit.o-ran-sc.org/r/ric-plt/xapp-frame"
 RUN cd xapp-frame && \

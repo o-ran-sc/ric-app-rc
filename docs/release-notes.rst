@@ -27,3 +27,7 @@ and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 * image creation  
 
 * commit id updated  
+
+* changed xapp-frame version
+
+* added readthedocs.yaml  

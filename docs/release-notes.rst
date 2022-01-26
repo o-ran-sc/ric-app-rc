@@ -31,3 +31,8 @@ and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 * changed xapp-frame version
 
 * added readthedocs.yaml  
+
+[1.0.1] - 1/27/2022
+--------------------
+
+* changed config.json for httpRestful registration

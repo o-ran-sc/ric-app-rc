@@ -36,3 +36,5 @@ and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 --------------------
 
 * changed config.json for httpRestful registration
+
+* commit id updated  

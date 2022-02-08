@@ -101,6 +101,23 @@
       "message": "recheck",
       "revId": "a68d14ca01424a51cc7c9dd24b46282784301cba",
       "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecf9241c_00e1c14a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001460
+      },
+      "writtenOn": "2022-02-08T00:19:11Z",
+      "side": 1,
+      "message": "jjb-deploy ric-app-rc-release-verify",
+      "revId": "a68d14ca01424a51cc7c9dd24b46282784301cba",
+      "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
     }
   ]
 }

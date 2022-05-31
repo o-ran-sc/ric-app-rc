@@ -63,11 +63,7 @@ typedef	unsigned int	uint32_t;
 #define isnan _isnan
 #define finite _finite
 #define copysign _copysign
-#ifdef WIN32	//MCHECK
-	#define	ilogb	ilogb
-#else
-	#define ilogb _logb
-#endif
+#define	ilogb	_logb
 #else	/* !_MSC_VER */
 #include <stdint.h>
 #endif	/* _MSC_VER */

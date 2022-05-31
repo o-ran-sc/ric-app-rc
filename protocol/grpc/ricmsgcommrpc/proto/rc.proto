@@ -24,9 +24,26 @@ message RICE2APHeader  {
 message RICControlHeader {
         int64           ControlStyle = 1;
         int64           ControlActionId = 2;
-        string          UEID = 3;
+        UeId            UEID = 3;
 }
 
+message UeId {
+	gNBUEID         GnbUEID = 1;
+}
+
+message gNBUEID {
+	int64		amfUENGAPID = 1;
+	Guami           guami = 2;
+        repeated int64  gNBCUUEF1APID = 3;
+        repeated int64  gNBCUCPUEE1APID = 4;
+}
+
+message Guami {
+	string          pLMNIdentity = 1;
+	string 		aMFRegionID  = 2;
+	string		aMFSetID     = 3;
+	string		aMFPointer   = 4;
+}
 
 message RICControlMessage {
 	RICControlCellTypeEnum    RICControlCellTypeVal = 1;

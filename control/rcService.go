@@ -6,8 +6,8 @@ import (
 	_ "strings"
 	"time"
 
-	"gerrit.o-ran-sc.org/r/ric-plt/xapp-frame/pkg/xapp"
 	"gerrit.o-ran-sc.org/r/ric-app/rc/protocol/grpc/ricmsgcommrpc/rc"
+	"gerrit.o-ran-sc.org/r/ric-plt/xapp-frame/pkg/xapp"
 	"golang.org/x/net/context"
 )
 
@@ -26,12 +26,13 @@ func (aPtrSendMsgSrv *RCControlServer) SendRICControlReqServiceGrpc(aCtx context
 	}()
 
 	var lRicControlGrpcRsp rc.RicControlGrpcRsp
-	lRicControlGrpcRsp.RspCode = GRPC_ERROR 
+	lRicControlGrpcRsp.RspCode = GRPC_ERROR
 	lRicControlGrpcRsp.Description = "The client specified an invalid argument. or some parameters are missing "
 	if aPtrRicControlGrpcReq == nil {
 		xapp.Logger.Error("Received nil data from Send error rsp")
 	} else {
-		if len(aPtrRicControlGrpcReq.E2NodeID) == 0 || len(aPtrRicControlGrpcReq.RICControlMessageData.TargetCellID) == 0 || len(aPtrRicControlGrpcReq.RICControlHeaderData.UEID) == 0  || len(aPtrRicControlGrpcReq.RanName) == 0  || len(aPtrRicControlGrpcReq.PlmnID) == 0{
+		//if len(aPtrRicControlGrpcReq.E2NodeID) == 0 || len(aPtrRicControlGrpcReq.RICControlMessageData.TargetCellID) == 0 || len(aPtrRicControlGrpcReq.RICControlHeaderData.UEID.GnbUEID.Guami.PLMNIdentity) == 0 || len(aPtrRicControlGrpcReq.RICControlHeaderData.UEID.GnbUEID.Guami.AMFRegionID) == 0 || len(aPtrRicControlGrpcReq.RICControlHeaderData.UEID.GnbUEID.Guami.AMFSetID) == 0 || len(aPtrRicControlGrpcReq.RICControlHeaderData.UEID.GnbUEID.Guami.AMFPointer) == 0 || len(aPtrRicControlGrpcReq.RanName) == 0 || len(aPtrRicControlGrpcReq.PlmnID) == 0 {
+		if len(aPtrRicControlGrpcReq.E2NodeID) == 0 || len(aPtrRicControlGrpcReq.RICControlMessageData.TargetCellID) == 0 || len(aPtrRicControlGrpcReq.RICControlHeaderData.UEID.GnbUEID.Guami.PLMNIdentity) == 0 || len(aPtrRicControlGrpcReq.RICControlHeaderData.UEID.GnbUEID.Guami.AMFRegionID) == 0 || len(aPtrRicControlGrpcReq.RICControlHeaderData.UEID.GnbUEID.Guami.AMFSetID) == 0 || len(aPtrRicControlGrpcReq.RICControlHeaderData.UEID.GnbUEID.Guami.AMFPointer) == 0 || len(aPtrRicControlGrpcReq.RanName) == 0 || len(aPtrRicControlGrpcReq.PlmnID) == 0 {
 			xapp.Logger.Error("Mandatory parameters are not received send Error rsp to client,no control Request will be initiated ")
 		} else {
 			xapp.Logger.Info("GRPC Control request validated, initiate Control Request to RAN")

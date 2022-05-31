@@ -5,9 +5,9 @@
     {
       "name": "rc",
       "image": {
-        "registry": "nexus3.o-ran-sc.org:10002",
-        "name": "o-ran-sc/ric-app-rc",
-        "tag": "1.0.1"
+        "registry": "hub.docker.com",
+        "name": "mthykand/rcxapp",
+        "tag": "v1.1"
       }
     }
   ],
@@ -68,6 +68,7 @@
   },
    "controls": {
 	   "ricHOControlgRpcServerPort" : "7777",
-	   "logLevel": 4
+	   "logLevel": 3,
+	   "controlAckTimer" : 2
    }
 }

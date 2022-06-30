@@ -1,12 +1,9 @@
 #ifndef	_WRAPPER_H_
 #define	_WRAPPER_H_
 
-//#include "ARP.h"
 #include "BOOLEAN.h"
 #include "NativeReal.h"
-//#include "NULL.h"
 #include "REAL.h"
-//#include "TimeStamp.h"
 #include "OCTET_STRING.h"
 #include "E2SM-RC-ControlHeader-Format1.h"
 #include "E2SM-RC-ControlHeader.h"
@@ -17,10 +14,7 @@
 #include "NativeInteger.h"
 #include "OPEN_TYPE.h"
 #include "PrintableString.h"
-//#include "RAN-ControlParameter-Item.h"
-//#include "RANParameter-ELEMENT.h"
 #include "RANParameter-ID.h"
-//#include "RANParameter-Item.h"
 #include "RANParameter-LIST.h"
 #include "RANParameter-Name.h"
 #include "RANParameter-STRUCTURE.h"
@@ -28,14 +22,10 @@
 #include "RANParameter-ValueType.h"
 #include "RANfunction-Name.h"
 #include "RIC-ControlAction-ID.h"
-//#include "RIC-ControlAction-Item.h"
 #include "RIC-ControlAction-Name.h"
-//#include "RIC-ControlStyle-Item.h"
-//#include "RIC-EventTriggerStyle-Item.h"
 #include "RIC-Format-Type.h"
 #include "RIC-Style-Name.h"
 #include "RIC-Style-Type.h"
-//#include "UE-Identity.h"
 #include "RANParameter-ValueType-Choice-ElementFalse.h"
 #include "RANParameter-ValueType-Choice-Structure.h"
 #include "UEID.h"
@@ -67,7 +57,6 @@ struct uEID {
     size_t  aMFPointer_size;
 };
 
-//extern ssize_t e2sm_encode_ric_control_header(void *buffer, size_t buf_size,struct uEID *in,long f1AP[1],long e1AP[1],long ricControlStyleType, long ricControlActionID);
 
 extern ssize_t e2sm_encode_ric_control_header(void *buffer, size_t buf_size,struct uEID *in,long f1AP[],size_t f1AP_len,long e1AP[],size_t e1Ap_len,long ricControlStyleType, long ricControlActionID, void *ranParameterValue, size_t ranParameterValue_size);
 
@@ -78,5 +67,4 @@ extern void e2sm_free_ric_call_process_outcome(E2SM_RC_ControlOutcome_t* control
 extern ssize_t e2sm_encode_nrcgi(NR_CGI_t *nr_cgi, void* ranParameterValue, size_t ranParameterValue_size,
 				ulong lNRCellId,uint8_t* buffer, size_t buf_size);
 
-//extern ssize_t encodeRANParameterTestingItemForStructure(RANParameter_ValueType_Choice_Structure_t **ranParameterChoiceItemStruct,E2SM_RC_ControlMessage_Format1_Item_t **ranParameterItem,long ranParameterID);
 #endif /* _WRAPPER_H_ */

@@ -61,3 +61,26 @@ func (c *E2ap) GetControlAckMsg(payload []byte) (decodedMsg *ControlAckMsg, err 
         decodedMsg.ControlOutcomeLength = int32(decodedCMsg.ricControlOutComeSize)
         return
 }
+
+func (c *E2ap) GetControlFailureMsg(payload []byte) (decodedMsg *ControlFailureMsg, err error) {
+        cptr := unsafe.Pointer(&payload[0])
+        decodedMsg = &ControlFailureMsg{}
+        decodedCMsg := C.e2ap_decode_ric_control_failure_message(cptr, C.size_t(len(payload)))
+        if decodedCMsg == nil {
+                return decodedMsg, errors.New("e2ap wrapper is unable to decode control failure message due to wrong or invalid payload")
+        }
+        defer C.e2ap_free_decoded_ric_control_failure(decodedCMsg)
+
+        decodedMsg.RequestID = int32(decodedCMsg.requestorID)
+        decodedMsg.InstanceId = int32(decodedCMsg.instanceID)
+        decodedMsg.FuncID = int32(decodedCMsg.ranfunctionID)
+        callproc := unsafe.Pointer(decodedCMsg.callProcessID)
+        decodedMsg.CallProcessID = C.GoBytes(callproc, C.int(decodedCMsg.callProcessIDSize))
+        decodedMsg.CallProcessIDLength = int32(decodedCMsg.callProcessIDSize)
+        decodedMsg.CauseType = int32(decodedCMsg.causeType)
+        decodedMsg.CauseValue = int64(decodedCMsg.causeValue)
+        controlOutcome := unsafe.Pointer(decodedCMsg.ricControlOutCome)
+        decodedMsg.ControlOutcome = C.GoBytes(controlOutcome, C.int(decodedCMsg.ricControlOutComeSize))
+        decodedMsg.ControlOutcomeLength = int32(decodedCMsg.ricControlOutComeSize)
+        return
+}

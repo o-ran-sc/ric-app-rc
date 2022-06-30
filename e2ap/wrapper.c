@@ -212,3 +212,95 @@ void e2ap_free_decoded_ric_control_ack(RICControlAcknowledge* msg) {
         free(msg);
     msg = NULL;
 }
+
+RICControlFailure* e2ap_decode_ric_control_failure_message(void *buffer, size_t buf_size)
+{
+    E2AP_PDU_t *pdu = decode_E2AP_PDU(buffer, buf_size);
+    if ( pdu != NULL && pdu->present == E2AP_PDU_PR_unsuccessfulOutcome)
+    {
+        UnsuccessfulOutcome_t* unSuccessfulOutcome = pdu->choice.unsuccessfulOutcome;
+        if ( unSuccessfulOutcome->procedureCode == ProcedureCode_id_RICcontrol
+            && unSuccessfulOutcome->value.present == UnsuccessfulOutcome__value_PR_RICcontrolFailure)
+        {
+                RICcontrolFailure_t *controlFailure = &(unSuccessfulOutcome->value.choice.RICcontrolFailure);
+                RICControlFailure *msg = (RICControlFailure *)calloc(1, sizeof(RICControlFailure));
+                int i = 0;
+                 for (i; i < controlFailure->protocolIEs.list.count; ++i )
+            {
+                if(controlFailure->protocolIEs.list.array[i]->id == ProtocolIE_ID_id_RICrequestID)
+                {
+                    msg->requestorID = controlFailure->protocolIEs.list.array[i]->value.choice.RICrequestID.ricRequestorID;
+                    msg->instanceID = controlFailure->protocolIEs.list.array[i]->value.choice.RICrequestID.ricInstanceID;
+                }
+                else if (controlFailure->protocolIEs.list.array[i]->id == ProtocolIE_ID_id_RANfunctionID) {
+                    msg->ranfunctionID = controlFailure->protocolIEs.list.array[i]->value.choice.RANfunctionID;
+                }
+                else if(controlFailure->protocolIEs.list.array[i]->id == ProtocolIE_ID_id_RICcallProcessID) {
+                    size_t callProcessIDSize = controlFailure->protocolIEs.list.array[i]->value.choice.RICcallProcessID.size;
+                    msg->callProcessID = calloc(1, callProcessIDSize);
+                    if (!msg->callProcessID) {
+                        fprintf(stderr, "alloc RICcallProcessID failed\n");
+                        e2ap_free_decoded_ric_control_failure(msg);
+                        ASN_STRUCT_FREE(asn_DEF_E2AP_PDU, pdu);
+			 return NULL;
+                    }
+
+                memcpy(msg->callProcessID, controlFailure->protocolIEs.list.array[i]->value.choice.RICcallProcessID.buf, callProcessIDSize);
+                    msg->callProcessIDSize = callProcessIDSize;
+                }
+                else if(controlFailure->protocolIEs.list.array[i]->id == ProtocolIE_ID_id_RICcontrolOutcome) {
+                        msg->causeType = controlFailure->protocolIEs.list.array[i]->value.choice.Cause.present;
+                        if (msg->causeType == Cause_PR_ricRequest) {
+                                msg->causeValue = controlFailure->protocolIEs.list.array[i]->value.choice.Cause.choice.ricRequest;
+                        } else if (msg->causeType == Cause_PR_ricService) {
+                                msg->causeValue = controlFailure->protocolIEs.list.array[i]->value.choice.Cause.choice.ricService;
+                        } else if (msg->causeType == Cause_PR_transport) {
+                                msg->causeValue = controlFailure->protocolIEs.list.array[i]->value.choice.Cause.choice.transport;
+                        } else if (msg->causeType == Cause_PR_protocol) {
+                                msg->causeValue = controlFailure->protocolIEs.list.array[i]->value.choice.Cause.choice.protocol;
+                        } else if (msg->causeType == Cause_PR_misc) {
+                                msg->causeValue = controlFailure->protocolIEs.list.array[i]->value.choice.Cause.choice.misc;
+                        }else {
+                                msg->causeType == Cause_PR_NOTHING;
+                        }
+                }
+                else if(controlFailure->protocolIEs.list.array[i]->id == ProtocolIE_ID_id_RICcontrolOutcome) {
+                    size_t ricControlOutComeSize = controlFailure->protocolIEs.list.array[i]->value.choice.RICcontrolOutcome.size;
+                    msg->ricControlOutCome = calloc(1, ricControlOutComeSize);
+                    if (!msg->ricControlOutCome) {
+                        fprintf(stderr, "alloc ricControlOutCome failed\n");
+                        e2ap_free_decoded_ric_control_failure(msg);
+                        ASN_STRUCT_FREE(asn_DEF_E2AP_PDU, pdu);
+			return NULL;
+                    }
+
+                    memcpy(msg->ricControlOutCome, controlFailure->protocolIEs.list.array[i]->value.choice.RICcontrolOutcome.buf, ricControlOutComeSize);
+                    msg->ricControlOutComeSize = ricControlOutComeSize;
+
+		}
+        }
+        return msg;
+        }
+        }
+
+        if(pdu != NULL)
+                ASN_STRUCT_FREE(asn_DEF_E2AP_PDU, pdu);
+
+        return NULL;
+}
+
+void e2ap_free_decoded_ric_control_failure(RICControlFailure* msg) {
+    if(msg == NULL) {
+        return;
+    }
+    if(msg->callProcessID != NULL) {
+        free(msg->callProcessID);
+        msg->callProcessID = NULL;
+    }
+    if(msg->ricControlOutCome != NULL) {
+        free(msg->ricControlOutCome);
+        msg->ricControlOutCome = NULL;
+    }
+        free(msg);
+    msg = NULL;
+}

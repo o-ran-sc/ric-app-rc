@@ -89,3 +89,15 @@ type ControlOutcomeMsg struct {
         ControlOutcomeType  int32
         ControlOutcome      interface{}
 }
+
+type ControlFailureMsg struct {
+        RequestID            int32
+        InstanceId           int32
+        FuncID               int32
+        CallProcessID        []byte
+        CallProcessIDLength  int32
+        CauseType            int32
+        CauseValue           int64
+        ControlOutcome       []byte
+        ControlOutcomeLength int32
+}

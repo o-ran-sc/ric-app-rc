@@ -357,8 +357,30 @@ func HandleControlResponse(params *xapp.RMRParams) (err error) {
 
 func HandleControlFailure(params *xapp.RMRParams) (err error) {
 
+	var e2ap *E2ap
+
 	xapp.Logger.Debug("The SubId in RIC_CONTROL_FAILURE is %d", params.SubId)
 	log.Printf("The SubId in RIC_CONTROL_FAILURE is %d", params.SubId)
 
+	controlAck, err := e2ap.GetControlFailureMsg(params.Payload)
+	if err != nil {
+                xapp.Logger.Debug("Failed to decode RIC Control message: %v", err)
+                log.Println("Failed to decode RIC Control Ack: %v", err)
+                return
+        }
+        log.Println("E2ap RIC  Control Ack message decoded \n")
+        xapp.Logger.Debug("E2ap RIC Control Ack message decoded \n")
+
+        gControlData.eventRicControlReqExpiredMu.Lock()
+        _, ok := gControlData.eventRicControlReqExpiredMap[int(controlAck.InstanceId)]
+        if !ok {
+                gControlData.eventRicControlReqExpiredMu.Unlock()
+                xapp.Logger.Debug("RIC_CONTROL_REQ has been deleted!")
+                log.Printf("RIC_CONTROL_REQ has been deleted!")
+                return nil
+        } else {
+                gControlData.eventRicControlReqExpiredMap[int(controlAck.InstanceId)] = true
+                gControlData.eventRicControlReqExpiredMu.Unlock()
+        }
 	return nil
 }

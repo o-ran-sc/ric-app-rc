@@ -2,7 +2,6 @@
 #include "wrapper.h"
 #include "OCTET_STRING.h"
 
-//ssize_t e2sm_encode_ric_control_header(void *buffer, size_t buf_size,struct uEID *inUEID,long f1AP[1],long e1AP[1],long ricControlStyleType, long ricControlActionID)
 ssize_t e2sm_encode_ric_control_header(void *buffer, size_t buf_size,struct uEID *inUEID,long f1AP[],size_t f1AP_len,long e1AP[],size_t e1Ap_len,long ricControlStyleType, long ricControlActionID, void* plmnId, size_t  plmnIdSize)
 {
         fprintf(stderr,"e2SM wrapper function Entered\n");	
@@ -88,15 +87,6 @@ ssize_t e2sm_encode_ric_control_header(void *buffer, size_t buf_size,struct uEID
 		ASN_STRUCT_FREE(asn_DEF_E2SM_RC_ControlHeader, controlHeaderIE);
                 return -1;
         }
-	/*
-	UEID_GNB_CU_CP_F1AP_ID_Item_t *F1AP_ID_Item = (UEID_GNB_CU_CP_F1AP_ID_Item_t *)calloc (1, sizeof(UEID_GNB_CU_CP_F1AP_ID_Item_t ));
-        if(! F1AP_ID_Item)
-        {
-        	fprintf(stderr, "alloc UEID_GNB_CU_CP_F1AP_ID_Item failed\n");
-                ASN_STRUCT_FREE(asn_DEF_E2SM_RC_ControlHeader, controlHeaderIE);
-                return -1;
-        }
-	*/
 	//f1AP is an array of data
 	//int n = sizeof(f1AP)/sizeof(long int);
 	for(int i =0; i < f1AP_len; i++)
@@ -114,7 +104,6 @@ ssize_t e2sm_encode_ric_control_header(void *buffer, size_t buf_size,struct uEID
 	}
 	//F1AP_ID_Item->gNB_CU_UE_F1AP_ID  = f1AP[0];
 	//ASN_SEQUENCE_ADD(&controlHeader_Fmt1->ueID.choice.gNB_UEID->gNB_CU_UE_F1AP_ID_List->list,F1AP_ID_Item);
-
 
 	
 	controlHeader_Fmt1->ueID.choice.gNB_UEID->gNB_CU_CP_UE_E1AP_ID_List = (UEID_GNB_CU_CP_E1AP_ID_List_t *)calloc(1,sizeof(UEID_GNB_CU_CP_E1AP_ID_List_t));
@@ -145,36 +134,10 @@ ssize_t e2sm_encode_ric_control_header(void *buffer, size_t buf_size,struct uEID
 	}
 	
 
-	 /*UEID_GNB_CU_CP_E1AP_ID_Item_t *E1AP_ID_Item = (UEID_GNB_CU_CP_E1AP_ID_Item_t *)calloc (1, sizeof(UEID_GNB_CU_CP_E1AP_ID_Item_t ));
-         if(! E1AP_ID_Item)
-         {
-         	fprintf(stderr, "alloc UEID_GNB_CU_CP_E1AP_ID_Item failed\n");
-                ASN_STRUCT_FREE(asn_DEF_E2SM_RC_ControlHeader, controlHeaderIE);
-                return -1;
-
-         }
-	 E1AP_ID_Item->gNB_CU_CP_UE_E1AP_ID = e1AP[0];
-	 ASN_SEQUENCE_ADD(&controlHeader_Fmt1->ueID.choice.gNB_UEID->gNB_CU_CP_UE_E1AP_ID_List->list,E1AP_ID_Item);
-	*/
         controlHeader_Fmt1->ric_Style_Type = ricControlStyleType;
         controlHeader_Fmt1->ric_ControlAction_ID = ricControlActionID;
 
         controlHeaderIE->ric_controlHeader_formats.choice.controlHeader_Format1 = controlHeader_Fmt1;
-
-	fprintf(stderr, "Manju string %s\n",controlHeaderIE->ric_controlHeader_formats.choice.controlHeader_Format1->ueID.choice.gNB_UEID->amf_UE_NGAP_ID.buf) ;
-
-	fprintf(stderr, "Manju string %s\n",controlHeaderIE->ric_controlHeader_formats.choice.controlHeader_Format1->ueID.choice.gNB_UEID->guami.pLMNIdentity.buf);
-
-
-	fprintf(stderr, "Manju string %s\n",controlHeaderIE->ric_controlHeader_formats.choice.controlHeader_Format1->ueID.choice.gNB_UEID->guami.aMFRegionID.buf);
-
-fprintf(stderr, "Manju string %s\n",controlHeaderIE->ric_controlHeader_formats.choice.controlHeader_Format1->ueID.choice.gNB_UEID->guami.aMFSetID.buf);
-
-fprintf(stderr, "Manju string %s\n",controlHeaderIE->ric_controlHeader_formats.choice.controlHeader_Format1->ueID.choice.gNB_UEID->guami.aMFPointer.buf);
-        
-fprintf(stderr, "Manju string %lu\n",(**(controlHeaderIE->ric_controlHeader_formats.choice.controlHeader_Format1->ueID.choice.gNB_UEID->gNB_CU_CP_UE_E1AP_ID_List->list.array)).gNB_CU_CP_UE_E1AP_ID);
-
-fprintf(stderr, "Manju string %lu\n",(**(controlHeaderIE->ric_controlHeader_formats.choice.controlHeader_Format1->ueID.choice.gNB_UEID->gNB_CU_UE_F1AP_ID_List->list.array)).gNB_CU_UE_F1AP_ID);
 
 
         fprintf(stderr, "showing xer of asn_DEF_E2SM_RC_ControlHeader data\n");

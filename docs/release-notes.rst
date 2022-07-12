@@ -39,6 +39,18 @@ and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 
 * commit id updated 
 
+[1.0.2] - 06/01/2022
+--------------------
+
+* E2AP is updated to E2AP:Version 2
+* E2SM-RC updated to E2SM-RC:1.01
+* No changes to grpc interface spec
+* Supports RIC Control ACK
+* Config is updated to have RIC Control Ack Timer
+* commit id updated
+
 [1.0.3] - 07/01/2022
--------------------- 
+--------------------
+
+* Supports Control Ack failure handle 
 * commit id updated 

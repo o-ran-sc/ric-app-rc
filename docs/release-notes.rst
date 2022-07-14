@@ -53,4 +53,5 @@ and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 --------------------
 
 * Supports Control Ack failure handle 
-* commit id updated 
+* commit id updated
+* README.md updated 

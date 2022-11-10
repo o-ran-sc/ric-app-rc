@@ -57,12 +57,12 @@ committers:
       email: 'amitsriv@hcl.com'
       id: 'amit.sarnath'
       company: 'HCL'
-      timezone: 'GMT+5:30'
+      timezone: 'Asia/Kolkata'
     - name: 'Sandeep Kumar'
       email: 'kumar.sandeep3@hcl.com'
       id: 'sandeepindia'
       company: 'HCL'
-      timezone: 'GMT+5:30'
+      timezone: 'Asia/Kolkata'
 tsc:
     # yamllint disable rule:line-length
     approval: 'https://wiki.o-ran-sc.org/display/TOC#ORANSCTechnicalOversightCommittee(TOC)-20210922'

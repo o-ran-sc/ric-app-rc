@@ -53,6 +53,16 @@ committers:
       id: 'nitinkg76'
       company: 'Mavenir'
       timezone: 'Asia/Kolkata'
+    - name: 'Amit Srivastava'
+      email: 'amitsriv@hcl.com'
+      id: 'amit.sarnath'
+      company: 'HCL'
+      timezone: 'Asia/Kolkata'
+    - name: 'Sandeep Kumar'
+      email: 'kumar.sandeep3@hcl.com'
+      id: 'sandeepindia'
+      company: 'HCL'
+      timezone: 'Asia/Kolkata'
 tsc:
     # yamllint disable rule:line-length
     approval: 'https://wiki.o-ran-sc.org/display/TOC#ORANSCTechnicalOversightCommittee(TOC)-20210922'

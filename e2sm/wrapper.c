@@ -15,10 +15,14 @@ ssize_t e2sm_encode_ric_control_header(void *buffer, size_t buf_size,struct uEID
         }
 
         controlHeaderIE->ric_controlHeader_formats.present = E2SM_RC_ControlHeader__ric_controlHeader_formats_PR_controlHeader_Format1;
-        E2SM_RC_ControlHeader_Format1_t  *controlHeader_Fmt1 = (E2SM_RC_ControlHeader_Format1_t *)calloc(1, sizeof(E2SM_RC_ControlHeader_Format1_t));
+        //E2SM_RC_ControlHeader_Format1_t  *controlHeader_Fmt1 = (E2SM_RC_ControlHeader_Format1_t *)calloc(1, sizeof(E2SM_RC_ControlHeader_Format1_t));
+	E2SM_RC_ControlHeader_Format1_t  *controlHeader_Fmt1 = NULL;
+	controlHeaderIE->ric_controlHeader_formats.choice.controlHeader_Format1 = (E2SM_RC_ControlHeader_Format1_t *)calloc(1, sizeof(E2SM_RC_ControlHeader_Format1_t));
+	controlHeader_Fmt1 = controlHeaderIE->ric_controlHeader_formats.choice.controlHeader_Format1;
         if(!controlHeader_Fmt1)
         {
                 fprintf(stderr, "alloc E2SM_RC_ControlHeader failed\n");
+		ASN_STRUCT_FREE(asn_DEF_E2SM_RC_ControlHeader, controlHeaderIE);
                 return -1;
         }
        
@@ -89,6 +93,7 @@ ssize_t e2sm_encode_ric_control_header(void *buffer, size_t buf_size,struct uEID
         }
 	//f1AP is an array of data
 	//int n = sizeof(f1AP)/sizeof(long int);
+
 	for(int i =0; i < f1AP_len; i++)
 	{
 		UEID_GNB_CU_CP_F1AP_ID_Item_t *F1AP_ID_Item = (UEID_GNB_CU_CP_F1AP_ID_Item_t *)calloc (1, sizeof(UEID_GNB_CU_CP_F1AP_ID_Item_t ));
@@ -171,9 +176,7 @@ ssize_t e2sm_encode_nrcgi(NR_CGI_t *nr_cgi, void* plmnIdValue, size_t  plmnId_si
         OCTET_STRING_fromBuf(&nr_cgi->pLMNIdentity,plmnIdValue, plmnId_size);
         //fprintf(stderr, "encodec Plmn Id = %s  plmnIdValue %s and lNRCellId = %lu \n", nr_cgi->pLMNIdentity, plmnIdValue,lNRCellId);
         //fprintf(stderr, "encodec Plmn Id = %s  and lNRCellId = %d \n", nr_cgi->pLMNIdentity,plmnIdValue,lNRCellId);
-	BIT_STRING_t *nr_cell_id = (BIT_STRING_t*)calloc(1, sizeof(BIT_STRING_t));
-           if(nr_cell_id)
-           {
+	BIT_STRING_t *nr_cell_id = &nr_cgi->nRCellIdentity ; 
                nr_cell_id->buf = (uint8_t*)calloc(1,5);
                if(nr_cell_id->buf)
                {
@@ -185,9 +188,7 @@ ssize_t e2sm_encode_nrcgi(NR_CGI_t *nr_cgi, void* plmnIdValue, size_t  plmnId_si
                    nr_cell_id->buf[4] = (lNRCellId & 0X000000000F) << 4;
                    nr_cell_id->bits_unused = 4;
 
-                   nr_cgi->nRCellIdentity = *nr_cell_id;
                }
-           }
 
           fprintf(stderr, "showing xer of asn_DEF_NR_CGI NR_CGI_t data\n");
           xer_fprint(stderr, &asn_DEF_NR_CGI, nr_cgi);

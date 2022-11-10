@@ -45,10 +45,10 @@ func (c *E2ap) GetControlAckMsg(payload []byte) (decodedMsg *ControlAckMsg, err 
         cptr := unsafe.Pointer(&payload[0])
         decodedMsg = &ControlAckMsg{}
         decodedCMsg := C.e2ap_decode_ric_control_acknowledge_message(cptr, C.size_t(len(payload)))
+        defer C.e2ap_free_decoded_ric_control_ack(decodedCMsg)
         if decodedCMsg == nil {
                 return decodedMsg, errors.New("e2ap wrapper is unable to decode indication message due to wrong or invalid payload")
         }
-        defer C.e2ap_free_decoded_ric_control_ack(decodedCMsg)
 
         decodedMsg.RequestID = int32(decodedCMsg.requestorID)
         decodedMsg.InstanceId = int32(decodedCMsg.instanceID)
@@ -66,10 +66,10 @@ func (c *E2ap) GetControlFailureMsg(payload []byte) (decodedMsg *ControlFailureM
         cptr := unsafe.Pointer(&payload[0])
         decodedMsg = &ControlFailureMsg{}
         decodedCMsg := C.e2ap_decode_ric_control_failure_message(cptr, C.size_t(len(payload)))
+        defer C.e2ap_free_decoded_ric_control_failure(decodedCMsg)
         if decodedCMsg == nil {
                 return decodedMsg, errors.New("e2ap wrapper is unable to decode control failure message due to wrong or invalid payload")
         }
-        defer C.e2ap_free_decoded_ric_control_failure(decodedCMsg)
 
         decodedMsg.RequestID = int32(decodedCMsg.requestorID)
         decodedMsg.InstanceId = int32(decodedCMsg.instanceID)

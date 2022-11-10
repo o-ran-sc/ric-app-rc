@@ -117,10 +117,10 @@ func (c *E2sm) GetControlOutcome(buffer []byte) (controlOutcome *ControlOutcomeM
         //ml.MavLog(ml.INFO, lTransId, "Decode Control Outcome: ")
 	xapp.Logger.Info("Decode Control Outcome: ")
         decodedMsg := C.e2sm_decode_ric_call_process_outcome(cptr, C.size_t(len(buffer)))
+        defer C.e2sm_free_ric_call_process_outcome(decodedMsg)
         if decodedMsg == nil {
                 return controlOutcome, errors.New("e2sm wrapper is unable to get ControlOutcome due to wrong or invalid input")
         }
-        defer C.e2sm_free_ric_call_process_outcome(decodedMsg)
         //ml.MavLog(ml.INFO, lTransId, "Decoded Control Outcome: ")
 	controlOutcome.ControlOutcomeType = int32(decodedMsg.ric_controlOutcome_formats.present)
 	if controlOutcome.ControlOutcomeType == 1 {

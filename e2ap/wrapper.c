@@ -188,6 +188,8 @@ RICControlAcknowledge* e2ap_decode_ric_control_acknowledge_message(void *buffer,
                     msg->ricControlOutComeSize = ricControlOutComeSize;
                 }
 	}
+		 if(pdu != NULL)
+		   	ASN_STRUCT_FREE(asn_DEF_E2AP_PDU, pdu);
 		return msg;
 	}
         }
@@ -279,7 +281,10 @@ RICControlFailure* e2ap_decode_ric_control_failure_message(void *buffer, size_t 
 
 		}
         }
-        return msg;
+		 if(pdu != NULL)
+                     ASN_STRUCT_FREE(asn_DEF_E2AP_PDU, pdu);
+
+                return msg;
         }
         }
 

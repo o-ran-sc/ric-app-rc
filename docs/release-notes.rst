@@ -59,4 +59,4 @@ and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 [1.0.4] - 11/23/2022
 ---------------------
 
-*Memory leak issues fixed
+* Memory leak issues fixed

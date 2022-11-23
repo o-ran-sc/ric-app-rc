@@ -55,3 +55,8 @@ and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 * Supports Control Ack failure handle 
 * commit id updated
 * README.md updated 
+
+[1.0.4] - 11/23/2022
+--------------------
+
+* Memory leak issues fixed

@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"sync"
 	"time"
-
+	//"encoding/hex"
 	"gerrit.o-ran-sc.org/r/ric-app/rc/protocol/grpc/ricmsgcommrpc/rc"
 	"gerrit.o-ran-sc.org/r/ric-plt/xapp-frame/pkg/xapp"
 )
@@ -242,13 +242,14 @@ func (aRicHoControlMsg *RicHoControlMsg) SendRicControlRequest(aRequestSN int) (
 
 	lNrOrEUtraCellType := aRicHoControlMsg.RicControlGrpcReqPtr.RICControlMessageData.RICControlCellTypeVal
 	lTargetCellVal := aRicHoControlMsg.RicControlGrpcReqPtr.RICControlMessageData.TargetCellID
+	//lTargetCellValBuf, _:= hex.DecodeString(lTargetCellVal)
 	lTargetCellValBuf := []byte(lTargetCellVal)
 	//lNRPlmnId := []byte(aRicHoControlMsg.RicControlGrpcReqPtr.RICControlMessageData.TargetCellID.PlmnID)
         //lNRCellId := aRicHoControlMsg.RicControlGrpcReqPtr.RICControlMessageData.TargetCellID.NRCellID
 
 
 	var lRicControlMessage []byte = make([]byte, 1024)
-	lRicControlMessageEncoded, err := e2sm.SetRicControlMessage(lRicControlMessage, lTargetPrimaryCell, lTargetCell, lNrCGIOrECGI, int64(lNrOrEUtraCellType), lTargetCellValBuf)
+	lRicControlMessageEncoded, err := e2sm.SetRicControlMessage(lRicControlMessage, lTargetPrimaryCell, lTargetCell, lNrCGIOrECGI, int64(lNrOrEUtraCellType), ueId_data.pLMNIdentitybuf, lTargetCellValBuf)
 	if err != nil {
 		xapp.Logger.Error("SetRicControlMessage Failed: %v, UEID:%v", err, aRicHoControlMsg.RicControlGrpcReqPtr.RICControlHeaderData.UEID)
 		log.Printf("SetRicControlMessage Failed: %v, UEID:%v", err, aRicHoControlMsg.RicControlGrpcReqPtr.RICControlHeaderData.UEID)

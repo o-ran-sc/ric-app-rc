@@ -15,7 +15,8 @@ import (
 	_"encoding/binary"
 	"encoding/hex"
 	"strings"
-	"strconv"
+	//"strconv"
+	"fmt"
 )
 
 type E2sm struct {
@@ -28,6 +29,7 @@ func (c *E2sm) SetRicControlHeader(buffer []byte, ueIdData *UEid, ricControlStyl
 	//cptr_ueIDbuf := unsafe.Pointer(&ueIDbuf[0])
 
 	lplmnIdBuf := strings.Join(strings.Fields(ueIdData.pLMNIdentitybuf), "")
+	/*
 	lIntvar, _ := strconv.Atoi(lplmnIdBuf)
 	xapp.Logger.Info("lIntvar = %d\n", lIntvar)
 
@@ -35,6 +37,13 @@ func (c *E2sm) SetRicControlHeader(buffer []byte, ueIdData *UEid, ricControlStyl
 	//ml.MavLog(ml.INFO, lTransId, " lIntegerByte = %v\n", lIntegerByte)
 	xapp.Logger.Info(" lIntegerByte = %v\n", lIntegerByte)
         lOutByte := get_bytepack_plmnId(lIntegerByte)
+	*/
+	lOutByte, err := hex.DecodeString(lplmnIdBuf)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(lOutByte)
+	fmt.Printf("% x", lOutByte)
         xapp.Logger.Info("lOutByte Len:%d\n", len(lOutByte))
         xapp.Logger.Info("lOutByte = %02X\n", lOutByte)
 	cptrRanParameterValue := unsafe.Pointer(&lOutByte[0])
@@ -80,12 +89,23 @@ func (c *E2sm) SetRicControlHeader(buffer []byte, ueIdData *UEid, ricControlStyl
 	return
 }
 
-func (c *E2sm) SetRicControlMessage(buffer []byte, targetPrimaryCell int64, targetCell int64, nrCGIOrECGI int64, nrOrEUtraCell int64, ranParameterValue []byte) (newBuffer []byte, err error) {
+func (c *E2sm) SetRicControlMessage(buffer []byte, targetPrimaryCell int64, targetCell int64, nrCGIOrECGI int64, nrOrEUtraCell int64, pLMNIdentitybuf string,NRcellIdbuf []byte) (newBuffer []byte, err error) {
 	
 	xapp.Logger.Info("SetRicControlMessagei Enter  ")
+	//lOutByte, err := hex.DecodeString(string(ranParameterValue))
+	 lplmnIdBuf := strings.Join(strings.Fields(pLMNIdentitybuf), "")
+        //lOutByte, err := hex.DecodeString(lplmnIdBuf)
+        //if err != nil {
+          //      return 
+        //}
+	NRCGI:="00"+lplmnIdBuf+string(NRcellIdbuf)
+	lOutByte, _ := hex.DecodeString(NRCGI)
+	//tmp_plmn:=[]byte(lplmnIdBuf)
+        cptrRanParameterValue := unsafe.Pointer(&lOutByte[0])
+
 
 	cptr := unsafe.Pointer(&buffer[0])
-	cptrRanParameterValue := unsafe.Pointer(&ranParameterValue[0])
+	//cptrRanParameterValue2 := unsafe.Pointer(&NRcellIdbuf[0])
 
 	/*
 	lIntvar, _ := strconv.Atoi(string(ranParameterValue))
@@ -100,7 +120,7 @@ func (c *E2sm) SetRicControlMessage(buffer []byte, targetPrimaryCell int64, targ
 	*/
 
 	size := C.e2sm_encode_ric_control_message(cptr, C.size_t(len(buffer)), C.long(targetPrimaryCell),
-		C.long(targetCell), C.long(nrOrEUtraCell), C.long(nrCGIOrECGI), cptrRanParameterValue, C.size_t(len(ranParameterValue)))
+		C.long(targetCell), C.long(nrOrEUtraCell), C.long(nrCGIOrECGI), cptrRanParameterValue,C.size_t(len(lOutByte)))
 
 	if size < 0 {
 		return make([]byte, 0), errors.New("e2sm wrapper is unable to set RicControlMessage due to wrong or invalid input")

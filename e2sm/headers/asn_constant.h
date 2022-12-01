@@ -9,11 +9,6 @@
 extern "C" {
 #endif
 
-#define maxE1APid (65535)
-#define maxF1APid (4)
-#define maxEARFCN (65535)
-#define maxNRARFCN (3279165)
-#define maxnoofNrCellBands (32)
 #define maxnoofMessages (65535)
 #define maxnoofE2InfoChanges (65535)
 #define maxnoofUEInfoChanges (65535)
@@ -37,6 +32,13 @@ extern "C" {
 #define maxnoofInsertIndication (65535)
 #define maxnoofControlAction (65535)
 #define maxnoofPolicyAction (65535)
+#define maxnoofInsertIndicationActions (63)
+#define maxnoofMulCtrlActions (63)
+#define maxE1APid (65535)
+#define maxF1APid (4)
+#define maxEARFCN (65535)
+#define maxNRARFCN (3279165)
+#define maxnoofNrCellBands (32)
 
 
 #ifdef __cplusplus

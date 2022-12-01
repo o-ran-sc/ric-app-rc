@@ -51,10 +51,14 @@ ssize_t e2sm_encode_ric_control_header(void *buffer, size_t buf_size,struct uEID
                 fprintf(stderr, "alloc aMFRegionID Value failed\n");
                 return -1;
         }
-	controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFRegionID.size = inUEID->aMFRegionID_size;
+	controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFRegionID.size = 1;//inUEID->aMFRegionID_size;
+	 int decimal_num= (int)strtol(inUEID->aMFRegionID, NULL, 2);
+	 memcpy(controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFRegionID.buf, (char*)&decimal_num,sizeof(unsigned int));
+        //AMFR->size=1;
+        controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFRegionID.bits_unused=0;
 	//controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFRegionID.buf[0] = inUEID->aMFRegionID && 0XFF;
 	//controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFRegionID.buf[0] = *(inUEID->aMFRegionID ) & 0XFF;
-	memcpy(controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFRegionID.buf,inUEID->aMFRegionID,inUEID->aMFRegionID_size);
+	//memcpy(controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFRegionID.buf,inUEID->aMFRegionID,inUEID->aMFRegionID_size);
 
 	controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFSetID.buf = (uint8_t*)calloc(1, inUEID->aMFSetID_size);
         if(!controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFSetID.buf)
@@ -78,9 +82,13 @@ ssize_t e2sm_encode_ric_control_header(void *buffer, size_t buf_size,struct uEID
                 return -1;
         }
 
-	controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFPointer.size = inUEID->aMFPointer_size;
+	controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFPointer.size = 1;//inUEID->aMFPointer_size;
 	//controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFPointer.buf[0] = inUEID->aMFPointer && 0XFF;
-	controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFPointer.buf[0] = (*(inUEID->aMFPointer) & 0xFC) >> 2;
+	//controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFPointer.buf[0] = (*(inUEID->aMFPointer) & 0xFC) >> 2;
+	 int decimal_num3= (int)strtol(inUEID->aMFPointer, NULL, 2);
+	 decimal_num3=decimal_num3<<2;
+         memcpy(controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFPointer.buf, (char*)&decimal_num3,sizeof(unsigned int));
+
 	controlHeader_Fmt1->ueID.choice.gNB_UEID->guami.aMFPointer.bits_unused = 2;
 
 
@@ -208,6 +216,146 @@ ssize_t e2sm_encode_nrcgi(NR_CGI_t *nr_cgi, void* plmnIdValue, size_t  plmnId_si
 }
 
 ssize_t e2sm_encode_ric_control_message(void *buffer, size_t buf_size, long targetPrimaryCell,
+                        long targetCell, long nrOrEUtraCell, long nrCGIOrECGI, void* ranParameterValue,size_t  ranParameterValue_size){
+
+                E2SM_RC_ControlMessage_t *e2smrcRcControlMsg = (E2SM_RC_ControlMessage_t*)calloc(1, sizeof(E2SM_RC_ControlMessage_t));
+        if(!e2smrcRcControlMsg) {
+            fprintf(stderr, "alloc E2SM_ControlMessage_t failed\n");
+        return -1;
+        }
+        e2smrcRcControlMsg->ric_controlMessage_formats.present = E2SM_RC_ControlMessage__ric_controlMessage_formats_PR_controlMessage_Format1;
+    E2SM_RC_ControlMessage_Format1_t *e2smrcRcControlFormat1 = (E2SM_RC_ControlMessage_Format1_t*)calloc(1, sizeof(E2SM_RC_ControlMessage_Format1_t));
+        if(!e2smrcRcControlFormat1) {
+                ASN_STRUCT_FREE(asn_DEF_E2SM_RC_ControlMessage, e2smrcRcControlMsg);
+                fprintf(stderr, "alloc E2SM_ControlMessage_Format1_t failed\n");
+                return -1;
+        }
+        RANParameter_ValueType_Choice_Structure_t *ranParameter_choice_Structure4 = (struct RANParameter_ValueType_Choice_Structure*)calloc(2, sizeof(struct RANParameter_ValueType_Choice_Structure));
+                //RANParameter_STRUCTURE_t* RPS4=(RANParameter_STRUCTURE_t*)calloc(1,sizeof(RANParameter_STRUCTURE_t));
+            //ranParameter_choice_Structure4[0]=(RANParameter_ValueType_Choice_Structure_t*)calloc(1,sizeof(RANParameter_ValueType_Choice_Structure_t));
+        //ranParameter_choice_Structure4[1]=(RANParameter_ValueType_Choice_Structure_t*)calloc(1,sizeof(RANParameter_ValueType_Choice_Structure_t));
+                //PLMN ################################
+        //void *p={"001F01"};
+                //void *nR={"12345C0010"};
+//               void *z={"00"};
+/*
+    int newSize = strlen((char*)ranParameterValue1)  + strlen((char*)ranParameterValue2) + 2;
+
+   // Allocate new buffer
+   char * newBuffer = (char *)malloc(newSize);
+   //strcpy(newBuffer,z);
+   strcat(newBuffer,(char *)ranParameterValue1); // or strncat
+   strcat(newBuffer,(char *)ranParameterValue2);
+
+    //newBuffer=00001F0112345C0010;
+    printf("%s\n",newBuffer);
+    u_int64_t lol3 = (u_int64_t)strtoll(newBuffer, NULL, 16);
+
+    int c0=lol3 & 0X0000000000000000FF;
+    int c1=(lol3>>8) & 0X0000000000000000FF;
+    int c2=(lol3>>16) & 0X0000000000000000FF;
+    int c3=(lol3>>24) & 0X0000000000000000FF;
+    int c4=(lol3>>32) & 0X0000000000000000FF;
+    int c5=(lol3>>40) & 0X0000000000000000FF;
+    int c6=(lol3>>48) & 0X0000000000000000FF;
+    int c7=(lol3>>56) & 0X0000000000000000FF;
+    int c8=lol3 & 0X000000000000000000;
+*/
+                   RANParameter_STRUCTURE_Item_t *ranParameter_structure_Item_nrcgi = (RANParameter_STRUCTURE_Item_t *)calloc(1,sizeof(RANParameter_STRUCTURE_Item_t));
+        ranParameter_structure_Item_nrcgi->ranParameter_ID=4;
+        RANParameter_ValueType_t* RPV_t_nrcgi=(RANParameter_ValueType_t*)calloc(1,sizeof(RANParameter_ValueType_t));
+        RPV_t_nrcgi->present=RANParameter_ValueType_PR_ranP_Choice_ElementFalse;
+        RANParameter_ValueType_Choice_ElementFalse_t * RPVCEF_nrcgi=(RANParameter_ValueType_Choice_ElementFalse_t *)calloc(1, sizeof(RANParameter_ValueType_Choice_ElementFalse_t));
+        RANParameter_Value_t *RPV_nrcgi=(RANParameter_Value_t *)calloc(1, sizeof(RANParameter_Value_t));
+        RPV_nrcgi->present=      RANParameter_Value_PR_valueOctS;
+
+
+
+        OCTET_STRING_t *NRCGI=(OCTET_STRING_t *)calloc(1,sizeof(OCTET_STRING_t));
+	OCTET_STRING_fromBuf(NRCGI, ranParameterValue,ranParameterValue_size);
+        RPV_nrcgi->choice.valueOctS=*NRCGI;
+        RPVCEF_nrcgi->ranParameter_value=RPV_nrcgi;
+        RPV_t_nrcgi->choice.ranP_Choice_ElementFalse=RPVCEF_nrcgi;
+        ranParameter_structure_Item_nrcgi->ranParameter_valueType=RPV_t_nrcgi;
+        ranParameter_choice_Structure4->ranParameter_Structure = (RANParameter_STRUCTURE_t*)calloc(1,sizeof(RANParameter_STRUCTURE_t));
+                ranParameter_choice_Structure4->ranParameter_Structure->sequence_of_ranParameters = (struct RANParameter_STRUCTURE__sequence_of_ranParameters*)calloc(1,sizeof(struct RANParameter_STRUCTURE__sequence_of_ranParameters));
+           int result1 = ASN_SEQUENCE_ADD(&ranParameter_choice_Structure4->ranParameter_Structure->sequence_of_ranParameters->list, ranParameter_structure_Item_nrcgi);
+    if (result1==-1)
+    {
+        fprintf(stderr,"Unable to assign memory to add PLMN %s",strerror(errno));
+        return -1;
+    }
+
+
+        RANParameter_STRUCTURE_Item_t* ranParameter_structure_Item3= (RANParameter_STRUCTURE_Item_t *)calloc(1,sizeof(RANParameter_STRUCTURE_Item_t));
+        ranParameter_structure_Item3->ranParameter_ID=3;
+        RANParameter_ValueType_t* RPV_t3=(RANParameter_ValueType_t*)calloc(1,sizeof(RANParameter_ValueType_t));
+        RPV_t3->present=RANParameter_ValueType_PR_ranP_Choice_Structure;
+        RPV_t3->choice.ranP_Choice_Structure=ranParameter_choice_Structure4;
+        ranParameter_structure_Item3->ranParameter_valueType=RPV_t3;
+                RANParameter_ValueType_Choice_Structure_t *ranParameter_choice_Structure3 = (struct RANParameter_ValueType_Choice_Structure*)calloc(2, sizeof(struct RANParameter_ValueType_Choice_Structure));
+                ranParameter_choice_Structure3->ranParameter_Structure = (RANParameter_STRUCTURE_t*)calloc(1,sizeof(RANParameter_STRUCTURE_t));
+        ranParameter_choice_Structure3->ranParameter_Structure->sequence_of_ranParameters= (struct RANParameter_STRUCTURE__sequence_of_ranParameters*)calloc(1,sizeof(struct RANParameter_STRUCTURE__sequence_of_ranParameters));
+                int result3 = ASN_SEQUENCE_ADD(&ranParameter_choice_Structure3->ranParameter_Structure->sequence_of_ranParameters->list, ranParameter_structure_Item3);
+    if (result3==-1)
+    {
+        fprintf(stderr,"Unable to assign memory to add  ranParameter_structure_Item3 %s",strerror(errno));
+        return -1;
+    }
+        RANParameter_STRUCTURE_Item_t * ranParameter_structure_Item2= (RANParameter_STRUCTURE_Item_t *)calloc(1,sizeof(RANParameter_STRUCTURE_Item_t));
+        ranParameter_structure_Item2->ranParameter_ID=2;
+        RANParameter_ValueType_t* RPV_t2=(RANParameter_ValueType_t*)calloc(1,sizeof(RANParameter_ValueType_t));
+        RPV_t2->present=RANParameter_ValueType_PR_ranP_Choice_Structure;
+        RPV_t2->choice.ranP_Choice_Structure=ranParameter_choice_Structure3;
+        ranParameter_structure_Item2->ranParameter_valueType=RPV_t2;
+                RANParameter_ValueType_Choice_Structure_t *ranParameter_choice_Structure2 = (struct RANParameter_ValueType_Choice_Structure*)calloc(2, sizeof(struct RANParameter_ValueType_Choice_Structure));
+                 ranParameter_choice_Structure2->ranParameter_Structure = (RANParameter_STRUCTURE_t*)calloc(1,sizeof(RANParameter_STRUCTURE_t));
+        ranParameter_choice_Structure2->ranParameter_Structure->sequence_of_ranParameters= (struct RANParameter_STRUCTURE__sequence_of_ranParameters*)calloc(1,sizeof(struct RANParameter_STRUCTURE__sequence_of_ranParameters));
+        int result4 = ASN_SEQUENCE_ADD(&ranParameter_choice_Structure2->ranParameter_Structure->sequence_of_ranParameters->list, ranParameter_structure_Item2);
+    if (result4==-1)
+    {
+        fprintf(stderr,"Unable to assign memory to add  ranParameter_structure_Item2 %s",strerror(errno));
+        return -1;
+    }
+        RANParameter_ValueType_t* RPV_t1=(RANParameter_ValueType_t*)calloc(1,sizeof(RANParameter_ValueType_t));
+        RPV_t1->present=RANParameter_ValueType_PR_ranP_Choice_Structure;
+        RPV_t1->choice.ranP_Choice_Structure=ranParameter_choice_Structure2;
+                  E2SM_RC_ControlMessage_Format1_Item_t *format1item = (E2SM_RC_ControlMessage_Format1_Item_t *) calloc(1,sizeof(
+                                                                             E2SM_RC_ControlMessage_Format1_Item_t));
+     if(!format1item) {
+             fprintf(stderr, "alloc format1item failed\n");
+             ASN_STRUCT_FREE(asn_DEF_E2SM_RC_ControlMessage, e2smrcRcControlMsg);
+             return -1;
+     }
+        format1item->ranParameter_ID=1;
+        format1item->ranParameter_valueType.present = RANParameter_ValueType_PR_ranP_Choice_Structure;
+        format1item->ranParameter_valueType=*RPV_t1;
+        int result5 = ASN_SEQUENCE_ADD(&e2smrcRcControlFormat1->ranP_List.list, format1item);
+    if (result5==-1)
+    {
+        fprintf(stderr,"Unable to assign memory to add  format1item %s",strerror(errno));
+        return -1;
+    }
+        e2smrcRcControlMsg->ric_controlMessage_formats.choice.controlMessage_Format1=e2smrcRcControlFormat1;
+        asn_enc_rval_t encode_result;
+    encode_result = aper_encode_to_buffer(&asn_DEF_E2SM_RC_ControlMessage, NULL, e2smrcRcControlMsg, buffer,buf_size );
+        fprintf(stderr, "encoded length = %ld \n", encode_result.encoded);
+    if(encode_result.encoded == -1)
+    {
+        fprintf(stderr, "Cannot encode %s: %s\n", encode_result.failed_type->name, strerror(errno));
+        return -1;
+    }
+    else
+     {
+        xer_fprint(stderr, &asn_DEF_E2SM_RC_ControlMessage,e2smrcRcControlMsg);
+                ASN_STRUCT_FREE(asn_DEF_E2SM_RC_ControlMessage, e2smrcRcControlMsg);
+        return encode_result.encoded;
+     }
+
+
+}
+/*
+ssize_t e2sm_encode_ric_control_message(void *buffer, size_t buf_size, long targetPrimaryCell,
                         long targetCell, long nrOrEUtraCell, long nrCGIOrECGI, void* ranParameterValue, size_t  ranParameterValue_size)
 {
 	fprintf(stderr, "e2sm_encode_ric_control_message \n") ;
@@ -333,7 +481,7 @@ ssize_t e2sm_encode_ric_control_message(void *buffer, size_t buf_size, long targ
         ranParameterItem4->ranParameter_valueType->choice.ranP_Choice_ElementFalse->ranParameter_value->present = RANParameter_Value_PR_valueOctS;
 	OCTET_STRING_fromBuf(&ranParameterItem4->ranParameter_valueType->choice.ranP_Choice_ElementFalse->ranParameter_value->choice.valueOctS,ranParameterValue, ranParameterValue_size);
 
-	/*
+
 	fprintf(stderr, "Target Plmn Id = %s ranParameterValue and lNRCellId = %lu \n", ranParameterValue,lNRCellId);
 	nrcgiLen = e2sm_encode_nrcgi(nr_cgi, ranParameterValue, ranParameterValue_size, lNRCellId,nrcgiBuf,nrcgiBuf_size);
 	if(nrcgiLen == -1 )
@@ -342,7 +490,7 @@ ssize_t e2sm_encode_ric_control_message(void *buffer, size_t buf_size, long targ
 		return nrcgiLen;
 	}
 	OCTET_STRING_fromBuf(&ranParameterItem4->ranParameter_valueType->choice.ranP_Choice_ElementFalse->ranParameter_value->choice.valueOctS,nrcgiBuf,nrcgiLen);
-	*/
+	
 	fprintf(stderr, " NR CGI encoded \n");
 
 	ranParameterStructure3->ranParameter_Structure = (RANParameter_STRUCTURE_t*)calloc(1,sizeof(RANParameter_STRUCTURE_t));
@@ -446,7 +594,7 @@ ssize_t e2sm_encode_ric_control_message(void *buffer, size_t buf_size, long targ
                 return encode_result.encoded;
         }
 }
-
+*/
 
 E2SM_RC_ControlOutcome_t* e2sm_decode_ric_call_process_outcome(void *buffer, size_t buf_size)
 {

@@ -11,7 +11,7 @@ The format is based on `Keep a Changelog <http://keepachangelog.com/>`__
 and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 
 [1.0.0] - 12/22/2021
---------------------
+---------------------
 
 * Initial creation of RC xapp.
 * Initial image creation 1.0.0
@@ -60,3 +60,9 @@ and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 --------------------
 
 * Memory leak issues fixed
+
+
+[1.0.5] - 05/09/2023
+---------------------
+
+*E2SM-RC ASN version updated to 2.0
